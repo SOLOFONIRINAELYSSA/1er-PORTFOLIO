@@ -60,6 +60,11 @@ html {
   line-height: 1.6;
 }
 
+/* Empêche le défilement du body quand le modal est ouvert */
+body.modal-open {
+  overflow: hidden;
+}
+
 body {
   font-family: var(--font-base);
   background-color: var(--primary);

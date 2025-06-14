@@ -10,6 +10,7 @@
   z-index: 2000;
   padding-top: 70px;
   overflow-y: auto;
+   scroll-behavior: smooth;
 }
 
 .all-projects-container {

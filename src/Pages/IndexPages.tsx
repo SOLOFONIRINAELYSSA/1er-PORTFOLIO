@@ -1,8 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, useAnimation, AnimatePresence } from 'framer-motion';
+import { motion, useAnimation, AnimatePresence  } from 'framer-motion';
 import './IndexPages.css';
 import Images from '../assets/images/imgP.jpg'
 import AllProjects from './AllProjects';
+import ProjectDetailModal from './ProjectDetailModal';
+import ProjectCard  from './card';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faGithub, faLinkedin, faWhatsapp, faDiscord } from '@fortawesome/free-brands-svg-icons';
 
 // Types
 type SkillCategory = {
@@ -11,20 +15,92 @@ type SkillCategory = {
 };
 
 type Project = {
+  id: number; // Ajouté
   title: string;
   description: string;
   tags: string[];
   image: string;
+  codeUrl?: string; // Ajouté
+  detailDescription?: string; // Ajouté
+  features?: string[]; // Ajouté
 };
 
 const IndexPages: React.FC = () => {
   const [isAllProjectsOpen, setIsAllProjectsOpen] = useState(false);
   const [showAllProjects, setShowAllProjects] = useState(false);
+  const [selectedProjectId, setSelectedProjectId] = useState<number | null>(null);
   const [activeSection, setActiveSection] = useState('home');
   const [menuOpen, setMenuOpen] = useState(false);
   const [hoveredSkill, setHoveredSkill] = useState<string | null>(null);
   const controls = useAnimation();
   const sectionsRef = useRef<HTMLElement[]>([]);
+
+   // État et gestion du formulaire - PLACEZ-ICI
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    subject: '',
+    message: ''
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitMessage, setSubmitMessage] = useState('');
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+    const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  setIsSubmitting(true);
+  
+  try {
+    const response = await fetch('https://formspree.io/f/myzjjkdj', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json' // Important pour Formspree
+      },
+      body: JSON.stringify({
+        name: formData.name,
+        email: formData.email,
+        subject: formData.subject,
+        message: formData.message
+      }),
+    });
+
+    const data = await response.json(); // Toujours parser la réponse
+
+    if (!response.ok) {
+      console.error('Erreur détaillée:', data);
+      throw new Error(data.error || 'Erreur lors de l\'envoi');
+    }
+
+    setSubmitMessage('Message envoyé avec succès !');
+    setFormData({
+      name: '',
+      email: '',
+      subject: '',
+      message: ''
+    });
+    
+  } catch (error) {
+    console.error('Erreur complète:', error);
+    setSubmitMessage('Erreur lors de l\'envoi. Veuillez réessayer.');
+  } finally {
+    setIsSubmitting(false);
+    setTimeout(() => setSubmitMessage(''), 5000);
+  }
+};
+
+  // Déclaration de socialLinks - PLACEZ-ICI AUSSI
+  const socialLinks = [
+    { name: 'github', url: 'https://github.com/SOLOFONIRINAELYSSA', icon: faGithub },
+    { name: 'linkedin', url: 'https://www.linkedin.com/in/elyssa-solofonirina-b40b1a365?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app', icon: faLinkedin },
+    { name: 'whatsapp', url: 'https://wa.me/261388499982', icon: faWhatsapp },
+    { name: 'discord', url: 'https://discord.com/users/votreid', icon: faDiscord }
+  ];
+
   // Configuration data
  function getFallbackUrls(skill: string): string[] {
   const lowerSkill = skill.toLowerCase();
@@ -105,22 +181,44 @@ function getShieldLogo(skill: string): string {
 
   const projects: Project[] = [
     {
+       id: 1,
       title: "Gestion de patients",
       description: "Solution complète avec suivi et ordonance.",
       tags: ["React", "Expres.js", "MySQL"],
-      image: "https://images.unsplash.com/photo-1581056771107-24ca5f033842?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80"
+      image: "https://images.unsplash.com/photo-1581056771107-24ca5f033842?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
+      codeUrl: "https://github.com/SOLOFONIRINAELYSSA",
+      detailDescription: "Description détaillée du projet de gestion de patients...", // Ajouté
+      features: [ // Ajouté
+      "Gestion des dossiers patients",
+      "Suivi des prescriptions",
+      "Rapports statistiques"
+    ]
     },
     {
+      id: 2,
       title: "Digitalisation de process interne",
       description: "Plateforme pour gerer des personels.",
       tags: ["Laravel.blade", "MySQL"],
-      image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80"
+      image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
+      codeUrl: "https://github.com/SOLOFONIRINAELYSSA",
+      detailDescription: "Description détaillée du projet de gestion de patients...", // Ajouté
+      features: [ // Ajouté
+      "Gestion des dossiers patients",
+      "Suivi des prescriptions",
+      "Rapports statistiques"]
     },
     {
+      id:3,
       title: "Logiciel de station essence",
       description: "Visualisation de données en temps réel.",
       tags: ["Java", "Chart.js", "Mysql Connector.jar"],
-      image: "https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80"
+      image: "https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
+      codeUrl: "https://github.com/SOLOFONIRINAELYSSA",
+      detailDescription: "Description détaillée du projet de gestion de patients...", // Ajouté
+      features: [ // Ajouté
+      "Gestion des dossiers patients",
+      "Suivi des prescriptions",
+      "Rapports statistiques"]
     }
   ];
 
@@ -285,54 +383,79 @@ function getShieldLogo(skill: string): string {
   };
 
   // Project cards
-  const renderProjectCards = () => {
-    return projects.map((project, index) => (
-      <motion.article 
-        key={`project-${index}`}
-        className="project-card"
-        variants={itemVariants}
-        whileHover={{ y: -10 }}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: "0px 0px -100px 0px" }}
-      >
-        <div className="project-image">
-          <img 
-            src={project.image} 
-            alt={project.title} 
-            loading="lazy"
-          />
-          <div className="project-overlay">
-            <div className="overlay-content">
-              <h3>{project.title}</h3>
-              <p>{project.description}</p>
-              <div className="project-tags">
-                {project.tags.map(tag => (
-                  <span key={tag}>{tag}</span>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="project-links">
-          <motion.a 
-            href="#"
-            whileHover={{ x: 5 }}
-            whileTap={{ scale: 0.95 }}
-            aria-label={`Voir le projet ${project.title}`}
-          >
-            Voir le projet <span aria-hidden="true">→</span>
-          </motion.a>
-          <motion.a 
-            href="#"
-            whileHover={{ x: 5 }}
-            whileTap={{ scale: 0.95 }}
-            aria-label={`Code source du projet ${project.title}`}
-          >
-            Code source <span aria-hidden="true">↗</span>
-          </motion.a>
-        </div>
-      </motion.article>
+  // const renderProjectCards = () => {
+  //   return projects.map((project, index) => (
+  //     <motion.article 
+  //       key={`project-${index}`}
+  //       className="project-card"
+  //       variants={itemVariants}
+  //       whileHover={{ y: -10 }}
+  //       initial="hidden"
+  //       whileInView="visible"
+  //       viewport={{ once: true, margin: "0px 0px -100px 0px" }}
+  //     >
+  //       <div className="project-image">
+  //         <img 
+  //           src={project.image} 
+  //           alt={project.title} 
+  //           loading="lazy"
+  //         />
+  //         <div className="project-overlay">
+  //           <div className="overlay-content">
+  //             <h3>{project.title}</h3>
+  //             <p>{project.description}</p>
+  //             <div className="project-tags">
+  //               {project.tags.map(tag => (
+  //                 <span key={tag}>{tag}</span>
+  //               ))}
+  //             </div>
+  //           </div>
+  //         </div>
+  //       </div>
+  //       <div className="project-links">
+  //         <motion.a 
+  //           href="#"
+  //           whileHover={{ x: 5 }}
+  //           whileTap={{ scale: 0.95 }}
+  //           aria-label={`Voir le projet ${project.title}`}
+  //         >
+  //           Voir le projet <span aria-hidden="true">→</span>
+  //         </motion.a>
+  //         <motion.a 
+  //           href="#"
+  //           whileHover={{ x: 5 }}
+  //           whileTap={{ scale: 0.95 }}
+  //           aria-label={`Code source du projet ${project.title}`}
+  //         >
+  //           Code source <span aria-hidden="true">↗</span>
+  //         </motion.a>
+  //       </div>
+  //     </motion.article>
+  //   ));
+  // };
+
+    // Gestion du scroll du body quand le modal est ouvert
+    useEffect(() => {
+      if (selectedProjectId) {
+        document.body.classList.add('modal-open');
+      } else {
+        document.body.classList.remove('modal-open');
+      }
+      
+      return () => {
+        document.body.classList.remove('modal-open');
+      };
+    }, [selectedProjectId]);
+
+  const displayedProjects = projects.slice(0, 3);
+
+  const renderProjectCards = (projectsToRender: Project[]) => {
+    return projectsToRender.map((project) => (
+      <ProjectCard 
+        key={project.id}
+        project={project}
+        onClick={() => setSelectedProjectId(project.id)}
+      />
     ));
   };
 
@@ -647,7 +770,7 @@ function getShieldLogo(skill: string): string {
         </div>
       </section>
       
-      <section id="projects" className="projects-section">
+      {/* <section id="projects" className="projects-section">
         <div className="container">
           <motion.div
             initial={{ opacity: 0 }}
@@ -690,7 +813,73 @@ function getShieldLogo(skill: string): string {
             </motion.button>
           </motion.div>
         </div>
-      </section>
+      </section> */}
+
+        <section id="projects" className="projects-section">
+      <div className="container">
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8 }}
+        >
+          <h2 className="section-title">
+            <span className="title-number">03.</span> Mes Projets
+          </h2>
+        </motion.div>
+        
+        <motion.div
+          className="projects-grid"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+        >
+          {renderProjectCards(displayedProjects)}
+        </motion.div>
+        
+        <motion.div
+          className="more-projects"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ delay: 0.3 }}
+        >
+          <motion.button
+            className="view-more"
+            onClick={() => setShowAllProjects(true)}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            Voir plus de projets
+          </motion.button>
+        </motion.div>
+      </div>
+
+        <AnimatePresence>
+          {selectedProjectId && (
+            <ProjectDetailModal 
+              projectId={selectedProjectId}
+              onClose={() => setSelectedProjectId(null)}
+              projects={projects}
+            />
+          )}
+        </AnimatePresence>
+
+        {showAllProjects && (
+          <AllProjects 
+            onClose={() => setShowAllProjects(false)}
+            onProjectSelect={setSelectedProjectId}
+          />
+        )}
+
+      {showAllProjects && (
+        <AllProjects 
+          onClose={() => setShowAllProjects(false)}
+          onProjectSelect={setSelectedProjectId}
+        />
+      )}
+    </section>
 
             {showAllProjects && (
           <AllProjects onClose={() => {
@@ -700,155 +889,196 @@ function getShieldLogo(skill: string): string {
         )}
 
       {/* Contact Section */}
-      <section id="contact" className="contact-section" ref={el => el && (sectionsRef.current[4] = el)}>
-        <div className="container">
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.8 }}
-          >
-            <h2 className="section-title">
-              <span className="title-number">04.</span> Contactez-moi
-            </h2>
+      <section id="contact" className="contact-section">
+      <div className="container">
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8 }}
+        >
+          <h2 className="section-title">
+            <span className="title-number">04.</span> Contactez-moi
+          </h2>
+        </motion.div>
+        
+        <motion.div
+          className="contact-container"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+        >
+          <motion.div className="contact-info" variants={itemVariants}>
+            <h3>Travaillons ensemble</h3>
+            <p>
+              Vous avez un projet ou une question ? Envoyez-moi un message et je vous répondrai dès que possible.
+            </p>
+            
+            <div className="contact-details">
+              <motion.div 
+                className="contact-item"
+                whileHover={{ x: 5 }}
+              >
+                <div className="contact-icon">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M4 4H20C21.1 4 22 4.9 22 6V18C22 19.1 21.1 20 20 20H4C2.9 20 2 19.1 2 18V6C2 4.9 2.9 4 4 4Z" stroke="var(--accent)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M22 6L12 13L2 6" stroke="var(--accent)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </div>
+                <div>
+                  <h4>Email</h4>
+                  <a href="mailto:elyssaelypiso@example.com">elyssaelypiso@example.com</a>
+                </div>
+              </motion.div>
+              
+              <motion.div 
+                className="contact-item"
+                whileHover={{ x: 5 }}
+              >
+                <div className="contact-icon">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M22 16.92V19C22 19.5304 21.7893 20.0391 21.4142 20.4142C21.0391 20.7893 20.5304 21 20 21H4C3.46957 21 2.96086 20.7893 2.58579 20.4142C2.21071 20.0391 2 19.5304 2 19V16.92" stroke="var(--accent)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M18 8C18 6.4087 17.3679 4.88258 16.2426 3.75736C15.1174 2.63214 13.5913 2 12 2C10.4087 2 8.88258 2.63214 7.75736 3.75736C6.63214 4.88258 6 6.4087 6 8V16H18V8Z" stroke="var(--accent)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M13 12V14H11V12H13Z" stroke="var(--accent)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </div>
+                <div>
+                  <h4>Téléphone</h4>
+                  <a href="tel:+261388499982">+261 38 84 999 82</a>
+                </div>
+              </motion.div>
+              
+              <motion.div 
+                className="contact-item"
+                whileHover={{ x: 5 }}
+              >
+                <div className="contact-icon">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M21 10C21 17 12 23 12 23C12 23 3 17 3 10C3 7.61305 3.94821 5.32387 5.63604 3.63604C7.32387 1.94821 9.61305 1 12 1C14.3869 1 16.6761 1.94821 18.364 3.63604C20.0518 5.32387 21 7.61305 21 10Z" stroke="var(--accent)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M12 13C13.6569 13 15 11.6569 15 10C15 8.34315 13.6569 7 12 7C10.3431 7 9 8.34315 9 10C9 11.6569 10.3431 13 12 13Z" stroke="var(--accent)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </div>
+                <div>
+                  <h4>Localisation</h4>
+                  <span>Fianarantsoa, Madagascar</span>
+                </div>
+              </motion.div>
+            </div>
+            
+            <div className="social-links">
+              {socialLinks.map((social) => (
+                <motion.a
+                  key={social.name}
+                  href={social.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="social-icon"
+                  whileHover={{ y: -5, scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                  aria-label={`Mon profil ${social.name}`}
+                >
+                  <FontAwesomeIcon icon={social.icon} size="lg" />
+                </motion.a>
+              ))}
+            </div>
           </motion.div>
           
-          <motion.div
-            className="contact-container"
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
+          <motion.form 
+            className="contact-form" 
+            variants={itemVariants}
+            onSubmit={handleSubmit}
           >
-            <motion.div className="contact-info" variants={itemVariants}>
-              <h3>Travaillons ensemble</h3>
-              <p>
-                Vous avez un projet ou une question ? Envoyez-moi un message et je vous répondrai dès que possible.
-              </p>
-              
-              <div className="contact-details">
-                <motion.div 
-                  className="contact-item"
-                  whileHover={{ x: 5 }}
-                >
-                  <div className="contact-icon">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                      <path d="M4 4H20C21.1 4 22 4.9 22 6V18C22 19.1 21.1 20 20 20H4C2.9 20 2 19.1 2 18V6C2 4.9 2.9 4 4 4Z" stroke="var(--accent)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                      <path d="M22 6L12 13L2 6" stroke="var(--accent)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                  </div>
-                  <div>
-                    <h4>Email</h4>
-                    <a href="mailto:elyssa@example.com">elyssaelypiso@example.com</a>
-                  </div>
-                </motion.div>
-                
-                <motion.div 
-                  className="contact-item"
-                  whileHover={{ x: 5 }}
-                >
-                  <div className="contact-icon">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                      <path d="M22 16.92V19C22 19.5304 21.7893 20.0391 21.4142 20.4142C21.0391 20.7893 20.5304 21 20 21H4C3.46957 21 2.96086 20.7893 2.58579 20.4142C2.21071 20.0391 2 19.5304 2 19V16.92" stroke="var(--accent)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                      <path d="M18 8C18 6.4087 17.3679 4.88258 16.2426 3.75736C15.1174 2.63214 13.5913 2 12 2C10.4087 2 8.88258 2.63214 7.75736 3.75736C6.63214 4.88258 6 6.4087 6 8V16H18V8Z" stroke="var(--accent)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                      <path d="M13 12V14H11V12H13Z" stroke="var(--accent)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                  </div>
-                  <div>
-                    <h4>Téléphone</h4>
-                    <a href="tel:+261340000000">+261 38 84 999 82</a>
-                  </div>
-                </motion.div>
-                
-                <motion.div 
-                  className="contact-item"
-                  whileHover={{ x: 5 }}
-                >
-                  <div className="contact-icon">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                      <path d="M21 10C21 17 12 23 12 23C12 23 3 17 3 10C3 7.61305 3.94821 5.32387 5.63604 3.63604C7.32387 1.94821 9.61305 1 12 1C14.3869 1 16.6761 1.94821 18.364 3.63604C20.0518 5.32387 21 7.61305 21 10Z" stroke="var(--accent)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                      <path d="M12 13C13.6569 13 15 11.6569 15 10C15 8.34315 13.6569 7 12 7C10.3431 7 9 8.34315 9 10C9 11.6569 10.3431 13 12 13Z" stroke="var(--accent)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                  </div>
-                  <div>
-                    <h4>Localisation</h4>
-                    <span>Antananarivo, Madagascar</span>
-                  </div>
-                </motion.div>
-              </div>
-              
-              <div className="social-links">
-                {['github', 'linkedin', 'twitter', 'dribbble'].map((social) => (
-                  <motion.a
-                    key={`social-${social}`}
-                    href="#"
-                    className="social-icon"
-                    whileHover={{ y: -5, scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
-                    aria-label={`Mon profil ${social}`}
-                  >
-                    <i className={`fab fa-${social}`} aria-hidden="true"></i>
-                  </motion.a>
-                ))}
-              </div>
+            <motion.div 
+              className="form-group"
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.2 }}
+            >
+              <label htmlFor="name">Votre nom</label>
+              <input 
+                type="text" 
+                id="name" 
+                name="name" 
+                value={formData.name}
+                onChange={handleChange}
+                required 
+              />
             </motion.div>
             
-            <motion.form className="contact-form" variants={itemVariants}>
-              <motion.div 
-                className="form-group"
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.2 }}
-              >
-                <label htmlFor="name">Votre nom</label>
-                <input type="text" id="name" name="name" required />
-              </motion.div>
-              
-              <motion.div 
-                className="form-group"
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.3 }}
-              >
-                <label htmlFor="email">Votre email</label>
-                <input type="email" id="email" name="email" required />
-              </motion.div>
-              
-              <motion.div 
-                className="form-group"
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.4 }}
-              >
-                <label htmlFor="subject">Sujet</label>
-                <input type="text" id="subject" name="subject" required />
-              </motion.div>
-              
-              <motion.div 
-                className="form-group"
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.5 }}
-              >
-                <label htmlFor="message">Votre message</label>
-                <textarea id="message" name="message" rows={5} required></textarea>
-              </motion.div>
-              
-              <motion.button
-                type="submit"
-                className="submit-button"
-                whileHover={{ scale: 1.02, boxShadow: "0 5px 15px rgba(255,182,193,0.4)" }}
-                whileTap={{ scale: 0.98 }}
-              >
-                Envoyer le message
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <path d="M22 2L11 13M22 2L15 22L11 13M11 13L2 9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </motion.button>
-            </motion.form>
-          </motion.div>
-        </div>
-      </section>
+            <motion.div 
+              className="form-group"
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.3 }}
+            >
+              <label htmlFor="email">Votre email</label>
+              <input 
+                type="email" 
+                id="email" 
+                name="email" 
+                value={formData.email}
+                onChange={handleChange}
+                required 
+              />
+            </motion.div>
+            
+            <motion.div 
+              className="form-group"
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.4 }}
+            >
+              <label htmlFor="subject">Sujet</label>
+              <input 
+                type="text" 
+                id="subject" 
+                name="subject" 
+                value={formData.subject}
+                onChange={handleChange}
+                required 
+              />
+            </motion.div>
+            
+            <motion.div 
+              className="form-group"
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.5 }}
+            >
+              <label htmlFor="message">Votre message</label>
+              <textarea 
+                id="message" 
+                name="message" 
+                rows={5} 
+                value={formData.message}
+                onChange={handleChange}
+                required
+              ></textarea>
+            </motion.div>
+            
+            {submitMessage && (
+              <div className={`form-message ${submitMessage.includes('Erreur') ? 'error' : 'success'}`}>
+                {submitMessage}
+              </div>
+            )}
+            
+            <motion.button
+              type="submit"
+              className="submit-button"
+              whileHover={{ scale: 1.02, boxShadow: "0 5px 15px rgba(255,182,193,0.4)" }}
+              whileTap={{ scale: 0.98 }}
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? 'Envoi en cours...' : 'Envoyer le message'}
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M22 2L11 13M22 2L15 22L11 13M11 13L2 9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </motion.button>
+          </motion.form>
+        </motion.div>
+      </div>
+    </section>
 
       {/* Footer */}
       <footer className="modern-footer">

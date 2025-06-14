@@ -1,10 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { projects } from './data';
+import ProjectDetailModal from './ProjectDetailModal';
 import './AllProjects.css';
+import ProjectCard from './card'; // Assurez-vous que le nom du fichier est correct
 
-const AllProjects = ({ onClose }) => {
+interface AllProjectsProps {
+  onClose: () => void;
+  onProjectSelect?: (projectId: number) => void;
+}
+
+const AllProjects = ({ onClose }: AllProjectsProps) => {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [selectedProjectId, setSelectedProjectId] = useState<number | null>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -15,24 +23,24 @@ const AllProjects = ({ onClose }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-   const scrollToTop = () => {
-    const container = document.querySelector('.all-projects-container');
-    container.scrollTo({
+  const scrollToTop = () => {
+    window.scrollTo({
       top: 0,
       behavior: 'smooth'
     });
   };
 
-  const handleBackToProjects = () => {
-    onClose(); // Ferme le modal
-    // Scroll vers la section projets après un léger délai
-    setTimeout(() => {
-      const projectsSection = document.getElementById('projects');
-      if (projectsSection) {
-        projectsSection.scrollIntoView({ behavior: 'smooth' });
-      }
-    }, 100);
-  };
+   const handleProjectClick = (projectId: number) => {
+      setSelectedProjectId(projectId);
+      
+      // Force le scroll après le rendu du modal
+      setTimeout(() => {
+        const modal = document.querySelector('.project-detail-overlay');
+        if (modal) {
+          modal.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 10);
+    };
 
   return (
     <motion.div 
@@ -42,7 +50,6 @@ const AllProjects = ({ onClose }) => {
       exit={{ opacity: 0 }}
       transition={{ duration: 0.3 }}
     >
-      {/* Bouton fermeture en haut à droite */}
       <motion.button 
         className="close-button"
         onClick={onClose}
@@ -65,63 +72,35 @@ const AllProjects = ({ onClose }) => {
         </h2>
         
         <div className="projects-grid">
-          {projects.map((project, index) => (
-            <motion.div
-              key={`project-${index}`}
-              className="project-card"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-              whileHover={{ y: -5 }}
-            >
-              <div className="project-image">
-                <img src={project.image} alt={project.title} loading="lazy" />
-                <div className="project-overlay">
-                  <div className="overlay-content">
-                    <h3>{project.title}</h3>
-                    <p>{project.description}</p>
-                    <div className="project-tags">
-                      {project.tags.map(tag => (
-                        <span key={tag}>{tag}</span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="project-links">
-                <motion.a 
-                  href="#"
-                  whileHover={{ x: 5 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  Voir le projet <span aria-hidden="true">→</span>
-                </motion.a>
-                <motion.a 
-                  href="#"
-                  whileHover={{ x: 5 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  Code source <span aria-hidden="true">↗</span>
-                </motion.a>
-              </div>
-            </motion.div>
+          {projects.map((project) => (
+            <ProjectCard 
+              key={project.id}
+              project={project}
+              onClick={() => handleProjectClick(project.id)}
+            />
           ))}
         </div>
 
-        {/* Bouton retour en bas de la liste */}
         <div className="back-button-container">
-         <motion.button 
-              className="back-button"
-              onClick={handleBackToProjects}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              Retour à la section Projets
-            </motion.button>
+          <motion.button 
+            className="back-button"
+            onClick={onClose}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            Retour à la section Projets
+          </motion.button>
         </div>
       </motion.div>
 
-    {/* Bouton retour en haut fixe */}
+      {selectedProjectId && (
+        <ProjectDetailModal 
+          projectId={selectedProjectId}
+          onClose={() => setSelectedProjectId(null)}
+          projects={projects}
+        />
+      )}
+
       <motion.button 
         className={`scroll-top-button ${isScrolled ? 'visible' : ''}`}
         onClick={scrollToTop}
