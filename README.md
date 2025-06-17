@@ -1,2 +1,2 @@
 ## IMAGES
-![Chargement](./README/images/readme.png)
+![Chargement](./README/images/cv.png)
