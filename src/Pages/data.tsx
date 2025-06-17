@@ -4,61 +4,61 @@ export const projects: Project[] = [
   {
     id: 1,
     title: "Gestion de patients",
-    description: "Solution complète avec suivi et ordonance.",
+    description: "",
     tags: ["React", "Express.js", "MySQL"],
     image: "https://images.unsplash.com/photo-1581056771107-24ca5f033842?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
-    codeUrl: "https://github.com/SOLOFONIRINAELYSSA",
-    detailDescription: "Une application complète pour la gestion des dossiers patients avec suivi des prescriptions et génération de rapports statistiques.",
+    codeUrl: "https://github.com/SOLOFONIRINAELYSSA/GESTION-DE-PATIENT.git",
+    detailDescription: "Une application complète pour la gestion des dossiers patients avec suivi des prescriptions et elle aide aussi un patient pour trouver à qui prendre le rendez-vous lors de sa consultation.",
     features: [
       "Gestion des dossiers patients",
       "Suivi des prescriptions médicales",
-      "Génération de rapports statistiques",
+      "Rendez-vous du patient avec un praticien",
       "Interface administrateur complète"
     ]
   },
   {
     id: 2,
     title: "Digitalisation de process interne",
-    description: "Plateforme pour gérer des personnels.",
+    description: "",
     tags: ["Laravel", "MySQL", "Bootstrap"],
     image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
-    codeUrl: "https://github.com/SOLOFONIRINAELYSSA",
-    detailDescription: "Une plateforme interne pour la gestion des ressources humaines et des processus administratifs.",
+    codeUrl: "https://github.com/SOLOFONIRINAELYSSA/DIGITALISATION-DE-PROCESS-INTERNE.git",
+    detailDescription: "Une plateforme interne pour la gestion des personnels et des processus administratifs.",
     features: [
       "Gestion des employés",
-      "Suivi des congés et absences",
-      "Tableau de bord administratif",
-      "Génération de documents automatisée"
+      "Suivi des congés, persmission et absences",
+      "Genération de badget pour chaque employé",
+      "Authentification pour chaque employé et pour l'Admin ou l'RH"
     ]
   },
   {
     id: 3,
     title: "Logiciel de station essence",
-    description: "Visualisation de données en temps réel.",
+    description: "",
     tags: ["Java", "Chart.js", "MySQL"],
     image: "https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
-    codeUrl: "https://github.com/SOLOFONIRINAELYSSA",
-    detailDescription: "Un système de gestion et de visualisation des données pour les stations-service.",
+    codeUrl: "https://github.com/SOLOFONIRINAELYSSA/LOGIEL-DE-STATION-ESSENCE.git",
+    detailDescription: "Un système de gestion et de visualisation des données pour les stations-service en temps réel",
     features: [
       "Suivi des stocks en temps réel",
       "Visualisation des ventes",
-      "Gestion des employés",
-      "Rapports financiers"
+      "Facture imprimer pour le client",
+      "Notification via l'application si l'un de produit au moins de 10 litres"
     ]
   },
   {
     id: 4,
-    title: "Plateforme e-learning",
-    description: "Système de cours en ligne avec suivi.",
-    tags: ["Next.js", "MongoDB", "Tailwind"],
+    title: "Location de voiture",
+    description: "",
+    tags: ["React", "Express.js", "Tailwind"],
     image: "https://images.unsplash.com/photo-1546410531-bb4caa6b424d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
     codeUrl: "https://github.com/SOLOFONIRINAELYSSA",
-    detailDescription: "Plateforme complète de cours en ligne avec suivi des progrès des étudiants.",
+    detailDescription: "Solution complète de gestion de location automobile avec calendrier de réservation et paiement en ligne.",  
     features: [
-      "Cours interactifs",
-      "Suivi des progrès",
-      "Tests et évaluations",
-      "Certification en ligne"
+       "Gestion du stock de véhicules par catégorie",
+       "Système de réservation avec calendrier interactif",  
+       "Tableau de bord administrateur",
+       "Suivi des clients et historique des locations"
     ]
   },
   {

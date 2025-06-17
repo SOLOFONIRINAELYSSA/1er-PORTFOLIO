@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, useAnimation, AnimatePresence  } from 'framer-motion';
 import './IndexPages.css';
-import Images from '../assets/images/imgP.jpg'
+import Images from '../assets/images/cv2025.JPG';
 import AllProjects from './AllProjects';
 import ProjectDetailModal from './ProjectDetailModal';
 import ProjectCard  from './card';
@@ -183,42 +183,46 @@ function getShieldLogo(skill: string): string {
     {
        id: 1,
       title: "Gestion de patients",
-      description: "Solution complète avec suivi et ordonance.",
+      description: "",
       tags: ["React", "Expres.js", "MySQL"],
       image: "https://images.unsplash.com/photo-1581056771107-24ca5f033842?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
-      codeUrl: "https://github.com/SOLOFONIRINAELYSSA",
-      detailDescription: "Description détaillée du projet de gestion de patients...", // Ajouté
+      codeUrl: "https://github.com/SOLOFONIRINAELYSSA/GESTION-DE-PATIENT.git",
+      detailDescription: "Une application complète pour la gestion des dossiers patients avec suivi des prescriptions et elle aide aussi un patient pour trouver à qui prendre le rendez-vous lors de sa consultation.",
       features: [ // Ajouté
       "Gestion des dossiers patients",
-      "Suivi des prescriptions",
-      "Rapports statistiques"
+      "Rendez-vous du patient avec un praticien",
+      "Suivi des prescriptions jusqu'à l'examen si ça le cas"
     ]
     },
     {
       id: 2,
       title: "Digitalisation de process interne",
-      description: "Plateforme pour gerer des personels.",
+      description: "",
       tags: ["Laravel.blade", "MySQL"],
       image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
-      codeUrl: "https://github.com/SOLOFONIRINAELYSSA",
-      detailDescription: "Description détaillée du projet de gestion de patients...", // Ajouté
-      features: [ // Ajouté
-      "Gestion des dossiers patients",
-      "Suivi des prescriptions",
-      "Rapports statistiques"]
+      codeUrl: "https://github.com/SOLOFONIRINAELYSSA/DIGITALISATION-DE-PROCESS-INTERNE.git",
+      detailDescription: "Une plateforme interne pour la gestion des personnels et des processus administratifs.",
+       features: [
+      "Gestion des employés",
+      "Suivi des congés, persmission et absences",
+      "Genération de badget pour chaque employé",
+      "Authentification pour chaque employé et pour l'Admin ou l'RH"
+    ]
     },
     {
       id:3,
       title: "Logiciel de station essence",
-      description: "Visualisation de données en temps réel.",
-      tags: ["Java", "Chart.js", "Mysql Connector.jar"],
+      description: "",
+      tags: ["Java", "Chart.js", "MySQL"],
       image: "https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
-      codeUrl: "https://github.com/SOLOFONIRINAELYSSA",
-      detailDescription: "Description détaillée du projet de gestion de patients...", // Ajouté
-      features: [ // Ajouté
-      "Gestion des dossiers patients",
-      "Suivi des prescriptions",
-      "Rapports statistiques"]
+      codeUrl: "https://github.com/SOLOFONIRINAELYSSA/LOGIEL-DE-STATION-ESSENCE.git",
+      detailDescription: "Un système de gestion et de visualisation des données pour les stations-service en temps réel",
+      features: [
+      "Suivi des stocks en temps réel",
+      "Visualisation des ventes",
+      "Facture imprimer pour le client",
+      "Notification via l'application si l'un de produit au moins de 10 litres"
+    ]
     }
   ];
 
