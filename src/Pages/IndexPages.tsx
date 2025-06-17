@@ -29,7 +29,7 @@ const IndexPages: React.FC = () => {
   const [isAllProjectsOpen, setIsAllProjectsOpen] = useState(false);
   const [showAllProjects, setShowAllProjects] = useState(false);
   const [selectedProjectId, setSelectedProjectId] = useState<number | null>(null);
-  const [activeSection, setActiveSection] = useState('home');
+  const [activeSection, setActiveSection] = useState('accueil');
   const [menuOpen, setMenuOpen] = useState(false);
   const [hoveredSkill, setHoveredSkill] = useState<string | null>(null);
   const controls = useAnimation();
@@ -280,7 +280,7 @@ function getShieldLogo(skill: string): string {
     };
 
     // Initialize sections ref
-    sectionsRef.current = ['home', 'about', 'skills', 'projects', 'contact']
+    sectionsRef.current = ['accueil', 'a propos', 'compétences', 'projets', 'contact']
       .map(id => document.getElementById(id))
       .filter(Boolean) as HTMLElement[];
 
@@ -313,7 +313,7 @@ function getShieldLogo(skill: string): string {
 
   // Navigation links
   const renderNavLinks = () => {
-    return ['home', 'about', 'skills', 'projects', 'contact'].map((item) => (
+    return ['accueil', 'a propos', 'compétences', 'projets', 'contact'].map((item) => (
       <motion.button
         key={`nav-${item}`}
         className={`nav-link ${activeSection === item ? 'active' : ''}`}
@@ -511,7 +511,7 @@ function getShieldLogo(skill: string): string {
       </motion.header>
 
       {/* Hero Section */}
-      <section id="home" className="hero-section" ref={el => el && (sectionsRef.current[0] = el)}>
+      <section id="accueil" className="hero-section" ref={el => el && (sectionsRef.current[0] = el)}>
         <div className="container">
           <motion.div
             className="hero-content"
@@ -630,7 +630,7 @@ function getShieldLogo(skill: string): string {
       </section>
 
       {/* About Section */}
-      <section id="about" className="about-section" ref={el => el && (sectionsRef.current[1] = el)}>
+      <section id="a propos" className="about-section" ref={el => el && (sectionsRef.current[1] = el)}>
         <div className="container">
           <motion.div
             initial={{ opacity: 0 }}
@@ -715,7 +715,7 @@ function getShieldLogo(skill: string): string {
       </section>
 
       {/* Skills Section */}
-      <section id="skills" className="skills-section" ref={el => el && (sectionsRef.current[2] = el)}>
+      <section id="compétences" className="skills-section" ref={el => el && (sectionsRef.current[2] = el)}>
         <div className="container">
           <motion.div
             initial={{ opacity: 0 }}
@@ -819,7 +819,7 @@ function getShieldLogo(skill: string): string {
         </div>
       </section> */}
 
-        <section id="projects" className="projects-section">
+        <section id="projets" className="projects-section">
       <div className="container">
         <motion.div
           initial={{ opacity: 0 }}
@@ -913,7 +913,7 @@ function getShieldLogo(skill: string): string {
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
         >
-          <motion.div className="contact-info" variants={itemVariants}>
+          <motion.div className="bg contact-info" variants={itemVariants}>
             <h3>Travaillons ensemble</h3>
             <p>
               Vous avez un projet ou une question ? Envoyez-moi un message et je vous répondrai dès que possible.
@@ -999,10 +999,11 @@ function getShieldLogo(skill: string): string {
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.2 }}
             >
-              <label htmlFor="name">Votre nom</label>
+              <label htmlFor="name"></label>
               <input 
                 type="text" 
                 id="name" 
+                placeholder='Votre nom'
                 name="name" 
                 value={formData.name}
                 onChange={handleChange}
@@ -1016,10 +1017,11 @@ function getShieldLogo(skill: string): string {
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.3 }}
             >
-              <label htmlFor="email">Votre email</label>
+              <label htmlFor="email"></label>
               <input 
                 type="email" 
                 id="email" 
+                placeholder='Votre email'
                 name="email" 
                 value={formData.email}
                 onChange={handleChange}
@@ -1033,10 +1035,11 @@ function getShieldLogo(skill: string): string {
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.4 }}
             >
-              <label htmlFor="subject">Sujet</label>
+              <label htmlFor="subject"></label>
               <input 
                 type="text" 
                 id="subject" 
+                placeholder='Sujet'
                 name="subject" 
                 value={formData.subject}
                 onChange={handleChange}
@@ -1050,10 +1053,11 @@ function getShieldLogo(skill: string): string {
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.5 }}
             >
-              <label htmlFor="message">Votre message</label>
+              <label htmlFor="message"></label>
               <textarea 
                 id="message" 
-                name="message" 
+                name="message"
+                placeholder='Votre message' 
                 rows={5} 
                 value={formData.message}
                 onChange={handleChange}
@@ -1100,7 +1104,7 @@ function getShieldLogo(skill: string): string {
             </div>
             
             <nav className="footer-links">
-              {['home', 'about', 'skills', 'projects', 'contact'].map((item) => (
+              {['accueil', 'a propos', 'compétences', 'projets', 'contact'].map((item) => (
                 <motion.a
                   key={`footer-nav-${item}`}
                   href={`#${item}`}

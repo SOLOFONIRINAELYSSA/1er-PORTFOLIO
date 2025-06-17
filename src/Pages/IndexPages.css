@@ -725,11 +725,22 @@ section {
   transition: all var(--transition-normal);
 }
 
+.bg{
+  background: transparent !important;
+  padding: 2rem;
+  border-radius: 10px;
+  border: 1px solid #9999995b;
+}
+
 .contact-form {
   flex: 1;
   background-color: var(--card-bg);
   border-radius: var(--radius-md);
-  padding: var(--space-xl);
+  padding: 2rem;
+}
+
+input::placeholder, textarea::placeholder{
+  color: var(--text-light) !important;
 }
 
 .form-group {
@@ -741,7 +752,6 @@ section {
   position: absolute;
   top: var(--space-sm);
   left: var(--space-sm);
-  color: var(--text-light);
   transition: all var(--transition-normal);
   pointer-events: none;
 }
