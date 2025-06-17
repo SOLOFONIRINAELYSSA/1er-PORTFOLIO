@@ -285,6 +285,7 @@ section {
   background-color: var(--accent);
   color: var(--primary);
   border-radius: var(--radius-md);
+  margin-bottom: 3em;
   font-weight: 600;
   transition: all var(--transition-normal);
 }
