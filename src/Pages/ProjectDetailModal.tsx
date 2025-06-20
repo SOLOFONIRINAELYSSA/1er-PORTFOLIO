@@ -1,7 +1,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { Project } from './types';
 import './ProjectDetailModal.css';
-import  { useEffect } from 'react';
+import { useEffect } from 'react';
 
 interface ProjectDetailModalProps {
   projectId: number;
@@ -12,13 +12,12 @@ interface ProjectDetailModalProps {
 const ProjectDetailModal = ({ projectId, onClose, projects }: ProjectDetailModalProps) => {
   const project = projects.find(p => p.id === projectId);
 
-   useEffect(() => {
-        // Fait remonter le modal en haut quand il s'ouvre
-        const modal = document.querySelector('.project-detail-overlay');
-        if (modal) {
-            modal.scrollTo({ top: 0, behavior: 'instant' });
-        }
-        }, [projectId]);
+  useEffect(() => {
+    const modal = document.querySelector('.project-detail-overlay');
+    if (modal) {
+      modal.scrollTo({ top: 0, behavior: 'instant' });
+    }
+  }, [projectId]);
 
   return (
     <AnimatePresence>
@@ -39,17 +38,17 @@ const ProjectDetailModal = ({ projectId, onClose, projects }: ProjectDetailModal
             transition={{ type: 'spring', damping: 25, stiffness: 100 }}
             onClick={(e) => e.stopPropagation()}
           >
-            <motion.button 
-              className="close-button"
-              onClick={onClose}
-              aria-label="Fermer"
-              whileHover={{ rotate: 90, scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-            >
-              &times;
-            </motion.button>
-
             <div className="project-detail-content">
+              <motion.button 
+                // className="close-button"
+                id='xxx'
+                onClick={onClose}
+                aria-label="Fermer"
+                whileTap={{ scale: 0.9 }}
+              >
+                &times;
+              </motion.button>
+
               <div className="project-detail-left">
                 <div className="project-detail-image">
                   <img 
@@ -113,6 +112,7 @@ const ProjectDetailModal = ({ projectId, onClose, projects }: ProjectDetailModal
                   )}
                 </div>
               </div>
+              
             </div>
           </motion.div>
         </motion.div>

@@ -386,59 +386,6 @@ function getShieldLogo(skill: string): string {
     ));
   };
 
-  // Project cards
-  // const renderProjectCards = () => {
-  //   return projects.map((project, index) => (
-  //     <motion.article 
-  //       key={`project-${index}`}
-  //       className="project-card"
-  //       variants={itemVariants}
-  //       whileHover={{ y: -10 }}
-  //       initial="hidden"
-  //       whileInView="visible"
-  //       viewport={{ once: true, margin: "0px 0px -100px 0px" }}
-  //     >
-  //       <div className="project-image">
-  //         <img 
-  //           src={project.image} 
-  //           alt={project.title} 
-  //           loading="lazy"
-  //         />
-  //         <div className="project-overlay">
-  //           <div className="overlay-content">
-  //             <h3>{project.title}</h3>
-  //             <p>{project.description}</p>
-  //             <div className="project-tags">
-  //               {project.tags.map(tag => (
-  //                 <span key={tag}>{tag}</span>
-  //               ))}
-  //             </div>
-  //           </div>
-  //         </div>
-  //       </div>
-  //       <div className="project-links">
-  //         <motion.a 
-  //           href="#"
-  //           whileHover={{ x: 5 }}
-  //           whileTap={{ scale: 0.95 }}
-  //           aria-label={`Voir le projet ${project.title}`}
-  //         >
-  //           Voir le projet <span aria-hidden="true">→</span>
-  //         </motion.a>
-  //         <motion.a 
-  //           href="#"
-  //           whileHover={{ x: 5 }}
-  //           whileTap={{ scale: 0.95 }}
-  //           aria-label={`Code source du projet ${project.title}`}
-  //         >
-  //           Code source <span aria-hidden="true">↗</span>
-  //         </motion.a>
-  //       </div>
-  //     </motion.article>
-  //   ));
-  // };
-
-    // Gestion du scroll du body quand le modal est ouvert
     useEffect(() => {
       if (selectedProjectId) {
         document.body.classList.add('modal-open');

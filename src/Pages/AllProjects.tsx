@@ -23,12 +23,15 @@ const AllProjects = ({ onClose }: AllProjectsProps) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
-  };
+        const scrollToTop = () => {
+        const allProjectsContainer = document.querySelector('.all-projects-container');
+        if (allProjectsContainer) {
+          allProjectsContainer.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      };
 
    const handleProjectClick = (projectId: number) => {
       setSelectedProjectId(projectId);

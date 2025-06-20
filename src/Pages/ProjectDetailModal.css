@@ -4,10 +4,9 @@
   left: 0;
   right: 0;
   bottom: 0;
-  overflow-y: auto; /* Permet le scroll si le contenu est long */
+  overflow-y: auto;
   z-index: 9999;
-  background-color: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(8px);
+  background-color: rgba(0, 0, 0, 0.7); /* Fond assombri sans flou */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -28,23 +27,22 @@
   animation: modal-enter 0.3s ease-out;
 }
 
-@keyframes modal-enter {
-  from {
-    transform: translateY(20px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
+.project-detail-content {
+  display: flex;
+  background-color:  rgba(0, 0, 0, 0.907) ;
+  flex-direction: column;
+  padding: 2rem;
+  gap: 2rem;
+  position: relative;
+  border: 1px solid rgba(135, 131, 131, 0.529); /* Bordure subtile */
 }
 
-.close-button {
-  position: absolute;
-  top: 16px;
-  right: 16px;
+#xxx{
+   position: absolute;
+  top: 5px !important;
+  right: 5px !important;
   width: 40px;
-  height: 40px;
+  height: 20px;
   border: none;
   background: none;
   cursor: pointer;
@@ -58,17 +56,13 @@
   transition: background-color 0.2s;
 }
 
+
+
 .close-button:hover {
   background-color: rgba(0, 0, 0, 0.1);
 }
 
-.project-detail-content {
-  display: flex;
-  flex-direction: column;
-  padding: 2rem;
-  gap: 2rem;
-}
-
+/* Le reste du CSS reste inchangé */
 .project-detail-left {
   display: flex;
   flex-direction: column;
